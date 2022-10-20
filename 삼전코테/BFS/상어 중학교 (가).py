@@ -59,6 +59,9 @@ def gravity (map) :
 def rot90 (map) :
     map = list(zip(*map))[::-1]
     map = [list(s) for s in map]
+
+    # map = list(zip(*map))[::-1]
+    # map = [list(s) for s in map]
     return map
 
 # 지우기
