@@ -43,6 +43,10 @@ def recount(s_x, s_y, direction):
         else:  # 범위 밖이면 ans 카운트
             ans += new_sand
 
+        print(ans)
+
+
+
 
 N = int(input())
 sand = [list(map(int, input().split())) for _ in range(N)]
