@@ -5,9 +5,6 @@ data = []
 for _ in range(n):
     data.append(list(map(int, input().split())))
 
-
-shark = [[0,0] for _ in range(m)]
-
 # 상어의 초기 방향 정해주기
 directions = list(map(int, input().split()))
 
@@ -22,7 +19,7 @@ for i in range(m):
 dx = [-1, 1, 0, 0]
 dy = [0, 0, -1, 1]
 
-# 상황판 그리기(상어번호, 냄새가 머무는 시간, 방향)
+# 상황판 그리기(상어번호, 냄새가 머무는 시간)
 smell = [[[0, 0]] * n for _ in range(n)]
 
 # 모든 냄새 정보 업데이트
@@ -43,7 +40,7 @@ def move():
     for x in range(n):
         for y in range(n):
             if data[x][y] != 0:
-                direction = directions[data[x][y] - 1]
+                direction = directions[data[x][y] - 1] # 초기 이동 방향 정하기
                 found = False
                 # 상어의 위치인 경우
                 for idx in priorities[data[x][y] - 1][direction - 1]:
@@ -51,15 +48,15 @@ def move():
                     ny = y + dy[idx - 1]
                     if 0 <= nx < n and 0 <= ny < n:
                         if smell[nx][ny][1] == 0: # 냄새가 나지 않는 곳이라면
-                            directions[data[x][y] - 1] = idx
+                            directions[data[x][y] - 1] = idx # 이동 방향 바꾸기
                             # 상어 이동시키기
-                            if new_data[nx][ny] == 0:
+                            if new_data[nx][ny] == 0: # 상어가 안 겹치는 경우
                                 new_data[nx][ny] = data[x][y]
-                            else :
+                            else : # 상어가 겹치는 경우
                                 new_data[nx][ny] = min(data[x][y], new_data[nx][ny])
-                            found = True
+                            found = True # 냄새가 나지 않는 어떤 곳에 이동했기 때문에
                             break
-                if found:
+                if found: # 주변이 모두 냄새가 남아있지 않아 어딘가로 이동한 경우
                     continue
 
                 # 주변에 모두 냄새가 남아있다면, 자신의 냄새가 있는 곳으로 이동
@@ -77,12 +74,12 @@ def move():
 
 answer = 0
 while True:
-    update_smell()
-    new_data = move()
-    data = new_data
-    answer += 1
+    update_smell() # 냄새 업데이트 (시간 지나기, 상어 위치에 냄새 뿌리기)
+    new_data = move() # 상어 이동
+    data = new_data # 데이터 덮어씌우기
+    answer += 1 # 1초 지남
 
-    check = True
+    check = True # 상어 1만 있는지 구하는 여부
     for i in range(n):
         for j in range(n):
             if data[i][j] > 1:
